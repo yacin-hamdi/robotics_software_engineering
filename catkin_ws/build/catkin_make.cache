@@ -1,0 +1,2 @@
+firs_package:simple_arm_01
+-DCATKIN_DEVEL_PREFIX=/home/robond/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/robond/catkin_ws/install -G Unix Makefiles

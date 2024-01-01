@@ -33,13 +33,15 @@ seg.set_method_type(pcl.SAC_RANSAC)
 
 max_distance = 1
 seg.set_distance_threshold(max_distance)
-inliers, coeffiecien
+
+inliers, coeffiecients = seg.segment()
 
 # Extract inliers
+extracted_inliers = cloud_filtered.extract(inliers, negative=True)
 
 # Save pcd for table
-filename = "voxel_downsampled.pcd"
-pcl.save(cloud, filename)
+filename = "extracted_inliers.pcd"
+pcl.save(extracted_inliers, filename)
 
 
 # Extract outliers

@@ -10,7 +10,7 @@ import rospy
 def pcl_callback(pcl_msg):
 
     # TODO: Convert ROS msg to PCL data
-    pcl_data = ros_to_cl(pcl_msg)
+    pcl_data = ros_to_pcl(pcl_msg)
 
     # TODO: Voxel Grid Downsampling
     vox = pcl_data.make_voxel_grid_filter()

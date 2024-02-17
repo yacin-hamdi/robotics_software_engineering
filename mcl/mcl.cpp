@@ -266,6 +266,25 @@ int main()
         w[i] = p[i].measurement_prob(z);
         std::cout << w[i] << std::endl;
     }
+
+    Robot p3[n];
+    int index = gen_real_random() * n;
+    double beta = 0.0;
+    double mw = max(w, n);
+    
+    for (int i = 0; i < n; i++) {
+        beta += gen_real_random() * 2.0 * mw;
+        while (beta > w[index]) {
+            beta -= w[index];
+            index = mod((index + 1), n);
+        }
+        p3[i] = p[index];
+    }
+
+    for (int i = 0; i < n; i++) {
+        p[i] = p3[i];
+        std::cout << p[i].show_pose() << std::endl;
+    }
     
     return 0;
 }

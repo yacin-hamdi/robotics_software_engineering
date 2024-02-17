@@ -247,6 +247,14 @@ int main()
         p[i].set_noise(0.05, 0.05, 5.0);
         std::cout << p[i].show_pose() << std::endl;
     }
+
+    Robot p2[n];
+
+    for (int i = 0; i < n; i++) {
+        p2[i] = p[i].move(0.1, 5.0);
+        p[i] = p2[i];
+        std::cout << p[i].show_pose() << std::endl;
+    }
     
     return 0;
 }

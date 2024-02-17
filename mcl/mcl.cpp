@@ -236,9 +236,10 @@ int main()
     std::cout << myrobot.show_pose() << std::endl;
     // TODO: Rotate the robot by PI/2.0 and then move him forward by 10.0
     // Use M_PI for the pi value
+    myrobot.move(M_PI / 2, 10.);
 
     // TODO: Print out the new robot position and orientation
-
+    std::cout << myrobot.show_pose() << std::endl;
 
     // Printing the distance from the robot toward the eight landmarks
     cout << myrobot.read_sensors() << endl;

@@ -245,46 +245,54 @@ int main()
 
     for (int i = 0; i < n; i++) {
         p[i].set_noise(0.05, 0.05, 5.0);
-        std::cout << p[i].show_pose() << std::endl;
+        //std::cout << p[i].show_pose() << std::endl;
     }
 
     myrobot = Robot();
     vector<double> z;
-    myrobot = myrobot.move(0.1, 5.0);
-    z = myrobot.sense();
 
-    Robot p2[n];
+    int steps = 50;
+    for (int t = 0; t < steps; t++) {
+        myrobot = myrobot.move(0.1, 5.0);
+        z = myrobot.sense();
 
-    for (int i = 0; i < n; i++) {
-        p2[i] = p[i].move(0.1, 5.0);
-        p[i] = p2[i];
-        std::cout << p[i].show_pose() << std::endl;
-    }
+        Robot p2[n];
 
-    double w[n];
-    for (int i = 0; i < n; i++) {
-        w[i] = p[i].measurement_prob(z);
-        std::cout << w[i] << std::endl;
-    }
-
-    Robot p3[n];
-    int index = gen_real_random() * n;
-    double beta = 0.0;
-    double mw = max(w, n);
-    
-    for (int i = 0; i < n; i++) {
-        beta += gen_real_random() * 2.0 * mw;
-        while (beta > w[index]) {
-            beta -= w[index];
-            index = mod((index + 1), n);
+        for (int i = 0; i < n; i++) {
+            p2[i] = p[i].move(0.1, 5.0);
+            p[i] = p2[i];
+            //std::cout << p[i].show_pose() << std::endl;
         }
-        p3[i] = p[index];
-    }
 
-    for (int i = 0; i < n; i++) {
-        p[i] = p3[i];
-        std::cout << p[i].show_pose() << std::endl;
+        double w[n];
+        for (int i = 0; i < n; i++) {
+            w[i] = p[i].measurement_prob(z);
+            //std::cout << w[i] << std::endl;
+        }
+
+        Robot p3[n];
+        int index = gen_real_random() * n;
+        double beta = 0.0;
+        double mw = max(w, n);
+
+        for (int i = 0; i < n; i++) {
+            beta += gen_real_random() * 2.0 * mw;
+            while (beta > w[index]) {
+                beta -= w[index];
+                index = mod((index + 1), n);
+            }
+            p3[i] = p[index];
+        }
+
+        for (int i = 0; i < n; i++) {
+            p[i] = p3[i];
+            //std::cout << p[i].show_pose() << std::endl;
+        }
+
+        double ErrorValue = evaluation(myrobot, p, n);
+        std::cout << "Step = " << t << ", Evaluation = " << ErrorValue << std::endl;
     }
+   
     
     return 0;
 }
